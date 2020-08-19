@@ -4,6 +4,8 @@ import torch.nn.functional as F
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader,TensorDataset
+
 
 
 data=pd.read_csv("diabetes2.csv")
@@ -33,9 +35,9 @@ y=np.array(y)
 X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=1234)
 
 # convert to numpy tensors
-X_train=torch.from_numpy(X_train)
+X_train=torch.from_numpy(X_train).float()
 y_train=torch.from_numpy(y_train)
-X_test=torch.from_numpy(X_test)
+X_test=torch.from_numpy(X_test).float()
 y_test=torch.from_numpy(y_test)
 
 class Model(nn.Module):
@@ -47,10 +49,25 @@ class Model(nn.Module):
             nn.ReLU(),
             nn.Linear(4,2),
             nn.ReLU(),
-            nn.Linear(2,1),
-            nn.Sigmoid()
+            nn.Linear(2,1)            
         )
+        self.sigmoid=nn.Sigmoid()
 
     def forward(self, x):
         x=self.linear(x)
+        x=self.sigmoid(x)
         return x
+
+
+model=Model()
+tl=TensorDataset(X_train,y_train)
+dl=DataLoader(tl,batch_size=128,shuffle=True)
+
+# testing dataloader and model
+for i,j in dl:
+    # print(i)
+    # print(j)
+    pred=model(i)
+    print(pred)
+    break
+
