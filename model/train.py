@@ -44,15 +44,48 @@ y_test=torch.from_numpy(y_test).float().unsqueeze(dim=1)
 # Dataloader
 tl=TensorDataset(X_train,y_train)
 dl=DataLoader(tl,batch_size=128,shuffle=True)
+# val loader
+tl=TensorDataset(X_test,y_test)
+vl=DataLoader(tl,batch_size=128,shuffle=True)
 
 # training reqs
 model=Model()
 loss=nn.BCELoss()
-optim=torch.optim.SGD(model.parameters(),lr=0.0001)
+
 
 
 # testing dataloader and model
-modeltest(dl)
+
+# modeltest(dl)
+
+def fit(epochs,lr,model,loss,dl,vl):
+    optim=torch.optim.SGD(model.parameters(),lr=lr, momentum=0.9)
+    history=[]
+    for epoch in range(epochs):
+        for i,j in dl:
+            pred=model(i)
+            ls=loss(pred,j)
+            ls.backward()
+            optim.step()
+        for i,j in vl:
+            pred=model(i)
+            ls=loss(pred,j)
+            acc=accuracy(pred,j)
+            print({'epoch.no':epoch,'loss':ls.item(),'acc':acc.item()})
+            history.append({'epoch.no':epoch,'loss':ls.item(),'acc':acc.item()})
+    return history
+
+train=fit(500,lr=0.00005,model,loss,dl,vl)
+acc=[i["acc"] for i in train]
+loss=[i["loss"] for i in train]
+
+import statistics
+print(f"acc_mean={statistics.mean(acc)}")
+print(f"loss_mean={statistics.mean(loss)}")
+
+torch.save(model.state_dict(),"./model.pth")
+
+
 
 
 

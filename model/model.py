@@ -4,11 +4,15 @@ class Model(nn.Module):
     def __init__(self):
         super().__init__()
         self.linear=nn.Sequential(
-            nn.Linear(7,4),
+            nn.Linear(7,14),
             nn.ReLU(),
-            nn.Linear(4,2),
+            nn.Linear(14,12),
             nn.ReLU(),
-            nn.Linear(2,1)            
+            nn.Linear(12,6),
+            nn.ReLU(),
+            nn.Linear(6,4),
+            nn.ReLU(),
+            nn.Linear(4,1)
         )
         self.sigmoid=nn.Sigmoid()
 
