@@ -59,7 +59,7 @@ loss=nn.BCELoss()
 # modeltest(dl)
 
 def fit(epochs,lr,model,loss,dl,vl):
-    optim=torch.optim.SGD(model.parameters(),lr=lr, momentum=0.9)
+    optim=torch.optim.SGD(model.parameters(),lr=lr, momentum=0.12)
     history=[]
     for epoch in range(epochs):
         for i,j in dl:
@@ -75,7 +75,7 @@ def fit(epochs,lr,model,loss,dl,vl):
             history.append({'epoch.no':epoch,'loss':ls.item(),'acc':acc.item()})
     return history
 
-train=fit(500,lr=0.00005,model,loss,dl,vl)
+train=fit(700,1e-9,model,loss,dl,vl)
 acc=[i["acc"] for i in train]
 loss=[i["loss"] for i in train]
 
