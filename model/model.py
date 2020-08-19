@@ -12,6 +12,7 @@ data=pd.read_csv("diabetes2.csv")
 # print(data.columns)
 
 features=["Pregnancies","Glucose","BloodPressure","SkinThickness","Insulin","BMI","Age"]
+print(len(features))
 
 
 y=data.pop("Outcome")
@@ -37,4 +38,19 @@ y_train=torch.from_numpy(y_train)
 X_test=torch.from_numpy(X_test)
 y_test=torch.from_numpy(y_test)
 
+class Model(nn.Module):
+    """Some Information about Model"""
+    def __init__(self):
+        super().__init__()
+        self.linear=nn.Sequential(
+            nn.Linear(7,4),
+            nn.ReLU(),
+            nn.Linear(4,2),
+            nn.ReLU(),
+            nn.Linear(2,1),
+            nn.Sigmoid()
+        )
 
+    def forward(self, x):
+        x=self.linear(x)
+        return x
