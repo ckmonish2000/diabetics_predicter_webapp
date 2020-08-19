@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader,TensorDataset
 from model import Model
 from acc import  accuracy
+from test import modeltest
 
 data=pd.read_csv("diabetes2.csv")
 
@@ -40,23 +41,19 @@ y_train=torch.from_numpy(y_train).float().unsqueeze(dim=1)
 X_test=torch.from_numpy(X_test).float()
 y_test=torch.from_numpy(y_test).float().unsqueeze(dim=1)
 
-
-
-model=Model()
-loss=nn.BCELoss()
-optim=torch.optim.SGD(model.parameters(),lr=0.0001)
+# Dataloader
 tl=TensorDataset(X_train,y_train)
 dl=DataLoader(tl,batch_size=128,shuffle=True)
 
+# training reqs
+model=Model()
+loss=nn.BCELoss()
+optim=torch.optim.SGD(model.parameters(),lr=0.0001)
+
+
 # testing dataloader and model
-for i,j in dl:
-    # print(i)
-    # print(j)
-    pred=model(i)
-    # print(pred)
-    print(f"acc={accuracy(pred,j)}")
-    print(f"loss={loss(pred,j).item()}")
-    break
+modeltest(dl)
+
 
 
 
