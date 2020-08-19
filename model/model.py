@@ -36,9 +36,9 @@ X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=12
 
 # convert to numpy tensors
 X_train=torch.from_numpy(X_train).float()
-y_train=torch.from_numpy(y_train)
+y_train=torch.from_numpy(y_train).float()
 X_test=torch.from_numpy(X_test).float()
-y_test=torch.from_numpy(y_test)
+y_test=torch.from_numpy(y_test).float()
 
 class Model(nn.Module):
     """Some Information about Model"""
@@ -60,7 +60,7 @@ class Model(nn.Module):
 
 
 model=Model()
-loss=nn.MSELoss()
+loss=nn.BCELoss()
 tl=TensorDataset(X_train,y_train)
 dl=DataLoader(tl,batch_size=128,shuffle=True)
 
