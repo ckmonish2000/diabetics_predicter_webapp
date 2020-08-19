@@ -60,6 +60,7 @@ class Model(nn.Module):
 
 
 model=Model()
+loss=nn.MSELoss()
 tl=TensorDataset(X_train,y_train)
 dl=DataLoader(tl,batch_size=128,shuffle=True)
 
@@ -69,5 +70,9 @@ for i,j in dl:
     # print(j)
     pred=model(i)
     print(pred)
+    print(loss(pred,j).item())
     break
+
+
+
 
