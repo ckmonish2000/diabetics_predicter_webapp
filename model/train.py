@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader,TensorDataset
 from model import Model
-
+from acc import  accuracy
 
 data=pd.read_csv("diabetes2.csv")
 
@@ -36,14 +36,15 @@ X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=12
 
 # convert to numpy tensors
 X_train=torch.from_numpy(X_train).float()
-y_train=torch.from_numpy(y_train).float()
+y_train=torch.from_numpy(y_train).float().unsqueeze(dim=1)
 X_test=torch.from_numpy(X_test).float()
-y_test=torch.from_numpy(y_test).float()
+y_test=torch.from_numpy(y_test).float().unsqueeze(dim=1)
 
 
 
 model=Model()
 loss=nn.BCELoss()
+optim=torch.optim.SGD(model.parameters(),lr=0.0001)
 tl=TensorDataset(X_train,y_train)
 dl=DataLoader(tl,batch_size=128,shuffle=True)
 
@@ -52,9 +53,13 @@ for i,j in dl:
     # print(i)
     # print(j)
     pred=model(i)
-    print(pred)
-    print(loss(pred,j).item())
+    # print(pred)
+    print(f"acc={accuracy(pred,j)}")
+    print(f"loss={loss(pred,j).item()}")
     break
+
+
+
 
 
 
