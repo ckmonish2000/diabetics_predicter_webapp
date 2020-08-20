@@ -43,7 +43,7 @@ y_test=torch.from_numpy(y_test).float().unsqueeze(dim=1)
 
 # Dataloader
 tl=TensorDataset(X_train,y_train)
-dl=DataLoader(tl,batch_size=128,shuffle=True)
+dl=DataLoader(tl,batch_size=100,shuffle=True)
 # val loader
 tl=TensorDataset(X_test,y_test)
 vl=DataLoader(tl,batch_size=128,shuffle=True)
@@ -75,7 +75,7 @@ def fit(epochs,lr,model,loss,dl,vl):
             history.append({'epoch.no':epoch,'loss':ls.item(),'acc':acc.item()})
     return history
 
-train=fit(700,1e-9,model,loss,dl,vl)
+train=fit(800,1e-6,model,loss,dl,vl)
 acc=[i["acc"] for i in train]
 loss=[i["loss"] for i in train]
 
