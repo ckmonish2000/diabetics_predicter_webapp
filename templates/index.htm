@@ -1,0 +1,20 @@
+{% extends 'base.htm' %}
+
+{% block body %}
+<h1>Diabetics Predicter </h1>
+<input type="range" name="" min=0 max=100 id="" onchange="test(this.value)">
+<form action="{{url_for('index')}}" method="POST">
+    {% for x in c %}
+
+    <label for="{{x}}">{{x}}:</label>
+    <input type="number" placeholder="{{x}}" name="{{x}}">
+    <br>
+    {% endfor %}
+    <input type="submit" value="submit">
+</form>
+<script>
+    function test(e){
+        console.log(e)
+    }
+</script>
+{% endblock body %}

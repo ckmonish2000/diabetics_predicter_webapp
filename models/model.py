@@ -4,7 +4,7 @@ class Model(nn.Module):
     def __init__(self):
         super().__init__()
         self.linear=nn.Sequential(
-            nn.Linear(7,16),
+            nn.Linear(6,16),
             nn.ReLU(),
             nn.Linear(16,14),
             nn.ReLU(),

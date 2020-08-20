@@ -14,7 +14,7 @@ data=pd.read_csv("diabetes2.csv")
 
 # print(data.columns)
 
-features=["Pregnancies","Glucose","BloodPressure","SkinThickness","Insulin","BMI","Age"]
+features=["Glucose","BloodPressure","SkinThickness","Insulin","BMI","Age"]
 print(len(features))
 
 
